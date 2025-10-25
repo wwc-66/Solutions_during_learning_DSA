@@ -71,7 +71,7 @@ class TreeNode:
         #树的大小增加1
         self.size += 1
 
-    def _put(key,val,currentNode):
+    def _put(self,key,val,currentNode):
         #当插入键小于当前节点键时
         if key < currentNode.key:
             #检查当前节点是否有左子节点
@@ -167,6 +167,8 @@ class TreeNode:
 
     def __delitem__(self,key):
         self.delete(key)
+
+    def remove(self,currentNode):
         #没有子节点
         if currentNode.isLeaf():
             #如果是左子节点
@@ -175,6 +177,16 @@ class TreeNode:
             #如果是右子节点
             else:
                 currentNode.parent.rightChild = None
+
+        #当前节点同时有左右子节点
+        elif currentNode.hasBothChildren():
+            #找到currentNode的后继节点
+            succ = currentNode.findSuccessor()
+            #把succ节点摘出
+            succ.spliceOut()
+            #当前节点的键值替换为succ的
+            currentNode.key = succ.key
+            currentNode.payload = succ.payload
 
         #仅有一个子节点
         else:
@@ -228,16 +240,6 @@ class TreeNode:
                                                 currentNode.rightChild.payload,
                                                 currentNode.rightChild.leftChild,
                                                 currentNode.rightChild.rightChild)
-
-        #当前节点同时有左右子节点
-        elif currentNode.hasBothChildren():
-            #找到currentNode的后继节点
-            succ = currentNode.findSuccessor()
-            #把succ节点摘出
-            succ.spliceOut()
-            #当前节点的键值替换为succ的
-            currentNode.key = succ.key
-            currentNode.payload = succ.payload
 
     #寻找后继节点
     def findSuccessor(self):
