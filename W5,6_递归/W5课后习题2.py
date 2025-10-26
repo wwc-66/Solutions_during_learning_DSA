@@ -34,7 +34,7 @@ def tower4(n,s,t,a1,a2):
         moves = []
         moves.extend(tower4(i,s,a1,t,a2))
         moves.extend(tower3(n-i,s,t,a2))
-        moves.extend(towe4(i,a1,t,s,a2))
+        moves.extend(tower4(i,a1,t,s,a2))
 
         all_moves.append(moves)
 
