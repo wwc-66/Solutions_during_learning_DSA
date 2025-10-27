@@ -21,3 +21,21 @@
 15
 1
 '''
+
+#定义函数，储存后续可直接调用的子问题解
+def solutions(N):
+    s = [0] * (N+1)
+    s[0] = 1
+    for i in range(1,N+1):
+        if i >= 1:
+            s[i] += s[i-1]
+        if i >= 2:
+            s[i] += s[i-2]
+        if i >= 3:
+            s[i] += s[i-3]
+        if i >= 4:
+            s[i] += s[i-4]
+    return s[N]
+
+m = int(input())
+print(solutions(m))

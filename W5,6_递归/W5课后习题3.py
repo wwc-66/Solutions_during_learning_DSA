@@ -33,3 +33,42 @@
 思路：先画出实心图像，随后通过递归不断挖空
 '''
 
+def sierpinski_carpet(N,c):
+    #得到初始地毯，后续将进行挖空操作
+    carpet = [c * N for _ in range(N)]
+    #定义挖空操作函数
+    def recursive_draw(x,y,size):
+        if size < 3:
+            return
+        #计算子正方形边长大小
+        sub_size = size // 3
+        #挖空正方形中心
+        for row in range(y+sub_size,y+2*sub_size):
+            #计算挖空范围
+            start_col = (x+sub_size) * len(c)
+            end_col = (x+2*sub_size) * len(c)
+            #对字符串重新赋值达到挖空效果
+            carpet[row] = carpet[row][:start_col] + ' '*(len(c)*sub_size) + carpet[row][end_col:]
+
+        #对其他八个子正方形进行挖空操作
+        for i in range(3):
+            for j in range(3):
+                #跳过中心子正方形（已被全部挖空）
+                if i == 1 and j == 1:
+                    continue
+                #计算在递归调用中的x，y坐标
+                new_x = x + i * sub_size
+                new_y = y + j * sub_size
+                #递归调用
+                recursive_draw(new_x,new_y,sub_size)
+    #从大正方形开始递归挖空
+    recursive_draw(0,0,N)
+    return carpet
+
+C = input()
+n = int(input())
+carpet0 = sierpinski_carpet(n,C)
+for ch in carpet0:
+    print(ch)
+
+'''提交答案运行时间超出题目要求，但功能可正常实现'''
