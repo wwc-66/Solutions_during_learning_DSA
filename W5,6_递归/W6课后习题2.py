@@ -35,8 +35,43 @@ print(candy(lst))
 '''
 
 def candy(ratings):
+    n = len(ratings)
+    if n == 0:
+        return 0
+    #初始值为全为1的列表，因为每个孩子都需要至少一颗糖果
+    candies = [1] * n
+    #从左到右遍历
+    for i in range(1, n):
+        #如果当前的孩子评分比他的前一位高
+        if ratings[i] > ratings[i - 1]:
+            #取当前孩子糖果个数和与之相比的孩子糖果个数的较大值
+            candies[i] = max(candies[i],candies[i - 1]+1)
+            #此处也可以直接取较小者的糖果数+1，因为在此轮遍历中，较小者糖果个数都为1
 
-    pass
+    #从右到左遍历
+    for j in range(n-2, -1,-1):
+        #如果当前的孩子评分比他的后一位高
+        if ratings[j] > ratings[j + 1]:
+            #取当前孩子糖果个数和与之相比的孩子糖果个数的较大值
+            candies[j] = max(candies[j],candies[j + 1]+1)
+    return sum(candies)
 
 lst = eval(input())
 print(candy(lst))
+
+'''
+两个方向分别遍历，
+是为了防止评分次高的孩子糖果个数为1时，
+其后一位评分更低的孩子糖果个数无法变得更低，
+导致他们糖果个数相同，
+不符合题目要求。
+
+如，[1,3,2,2,1]，
+初始糖果个数都为1，
+而3 > 1使3分孩子的糖果个数为2，
+而后面2分的孩子糖果个数只能为1，
+但最后还有一个1分的孩子，
+因此再反向遍历一次，
+确保每个孩子都有糖果，
+并且个数符合题目要求。
+'''
