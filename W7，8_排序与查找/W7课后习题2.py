@@ -20,3 +20,25 @@ lambda n:n>=30
 样例输出
 30
 '''
+
+n = int(input())
+isBadVersion = eval(input().strip())
+
+def checker(N):
+    #定义初始左右边界
+    left = 1
+    right = N
+    #当左界小于右界，即还未锁定确定值时
+    while left < right:
+        #取中点
+        mid = (left + right) // 2
+        #如果中点处为坏版本，则右界前移
+        if isBadVersion(mid):
+            right = mid
+        #中点处非坏版本，左界后移
+        else:
+            left = mid + 1
+    #二分法最终找到第一个坏版本
+    return left
+
+print(checker(n))
