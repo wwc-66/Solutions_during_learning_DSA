@@ -35,3 +35,30 @@ b
 ——————————
 none
 '''
+
+def findAnagrams(s, p):
+    #s长度比p短，不可能找到结果，故返回none
+    if len(s) < len(p):
+        return 'none'
+
+    #初始化结果列表，后续返回
+    result = []
+    #对p进行sorted操作便于识别（匹配字符串sorted后与sorted（p）相同即可）
+    p_sorted = sorted(p)
+
+    #遍历每个合法索引
+    for i in range(len(s) - len(p) + 1):
+        #定义当前子字符串
+        substring = s[i:i+len(p)]
+        #对当前子串进行sorted操作，如果与p_sorted相同，则把第一位字符索引加入result
+        if sorted(substring) == p_sorted:
+            result.append(str(i))
+
+    if result:
+        return ' '.join(result)
+    else:
+        return 'none'
+
+S = input()
+P = input()
+print(findAnagrams(S, P))
